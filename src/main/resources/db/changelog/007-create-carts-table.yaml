@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-carts-table
+      author: digigoods
+      changes:
+        - createTable:
+            tableName: cart_headers
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+#        - addForeignKeyConstraint:
+#            baseTableName: cart_headers
+#            baseColumnNames: user_id
+#            constraintName: fk_cart_headers_user_id
+#            referencedTableName: users
+#            referencedColumnNames: id
+        - createTable:
+            tableName: cart_details
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: cart_header_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+#        - addForeignKeyConstraint:
+#            baseTableName: cart_details
+#            baseColumnNames: cart_header_id
+#            constraintName: fk_cart_details_cart_header_id
+#            referencedTableName: cart_headers
+#            referencedColumnNames: id
+#        - addForeignKeyConstraint:
+#            baseTableName: cart_details
+#            baseColumnNames: product_id
+#            constraintName: fk_cart_details_product_id
+#            referencedTableName: products
+#            referencedColumnNames: id

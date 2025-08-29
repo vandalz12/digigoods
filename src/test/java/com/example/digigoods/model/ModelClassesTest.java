@@ -1,6 +1,7 @@
 package com.example.digigoods.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -347,6 +349,172 @@ class ModelClassesTest {
       assertNotNull(result);
       assertTrue(result.contains("100.00"));
       assertTrue(result.contains("80.00"));
+    }
+  }
+
+  @Nested
+  @DisplayName("CartHeader Model Tests")
+  class CartHeaderModelTest {
+
+    private CartHeader cartHeader;
+    private User user;
+    private Product product1;
+    private Product product2;
+
+    @BeforeEach
+    void setUp() {
+      user = new User(1L, "testuser", "password");
+
+      product1 = new Product();
+      product1.setId(1L);
+      product1.setName("Product 1");
+
+      product2 = new Product();
+      product2.setId(2L);
+      product2.setName("Product 2");
+
+      cartHeader = new CartHeader();
+      cartHeader.setId(1L);
+      cartHeader.setUser(user);
+    }
+
+    @Test
+    @DisplayName("Given empty cart, when checking if product exists, then return false")
+    void givenEmptyCart_whenCheckingIfProductExists_thenReturnFalse() {
+      // Act
+      boolean exists = cartHeader.isProductExists(1L);
+
+      // Assert
+      assertFalse(exists);
+    }
+
+    @Test
+    @DisplayName("Given cart with product, when checking if same product exists, then return true")
+    void givenCartWithProduct_whenCheckingIfSameProductExists_thenReturnTrue() {
+      // Arrange
+      cartHeader.addProductToCart(product1, 2);
+
+      // Act
+      boolean exists = cartHeader.isProductExists(1L);
+
+      // Assert
+      assertTrue(exists);
+    }
+
+    @Test
+    @DisplayName("Given cart with product, when checking if different product exists, then return false")
+    void givenCartWithProduct_whenCheckingIfDifferentProductExists_thenReturnFalse() {
+      // Arrange
+      cartHeader.addProductToCart(product1, 2);
+
+      // Act
+      boolean exists = cartHeader.isProductExists(2L);
+
+      // Assert
+      assertFalse(exists);
+    }
+
+    @Test
+    @DisplayName("Given empty cart, when adding product, then product is added with correct details")
+    void givenEmptyCart_whenAddingProduct_thenProductIsAddedWithCorrectDetails() {
+      // Act
+      cartHeader.addProductToCart(product1, 3);
+
+      // Assert
+      assertEquals(1, cartHeader.getCartDetails().size());
+      CartDetail cartDetail = cartHeader.getCartDetails().get(0);
+      assertEquals(cartHeader, cartDetail.getCartHeader());
+      assertEquals(product1, cartDetail.getProduct());
+      assertEquals(3, cartDetail.getQuantity());
+    }
+
+    @Test
+    @DisplayName("Given cart with one product, when adding another product, then both products exist")
+    void givenCartWithOneProduct_whenAddingAnotherProduct_thenBothProductsExist() {
+      // Arrange
+      cartHeader.addProductToCart(product1, 2);
+
+      // Act
+      cartHeader.addProductToCart(product2, 4);
+
+      // Assert
+      assertEquals(2, cartHeader.getCartDetails().size());
+      assertTrue(cartHeader.isProductExists(1L));
+      assertTrue(cartHeader.isProductExists(2L));
+    }
+
+    @Test
+    @DisplayName("Given cart with product, when modifying quantity, then quantity is updated")
+    void givenCartWithProduct_whenModifyingQuantity_thenQuantityIsUpdated() {
+      // Arrange
+      cartHeader.addProductToCart(product1, 2);
+
+      // Act
+      cartHeader.modifyQuantity(1L, 5);
+
+      // Assert
+      assertEquals(1, cartHeader.getCartDetails().size());
+      CartDetail cartDetail = cartHeader.getCartDetails().get(0);
+      assertEquals(5, cartDetail.getQuantity());
+    }
+
+    @Test
+    @DisplayName("Given cart with multiple products, when modifying specific product quantity, then only that product is updated")
+    void givenCartWithMultipleProducts_whenModifyingSpecificProductQuantity_thenOnlyThatProductIsUpdated() {
+      // Arrange
+      cartHeader.addProductToCart(product1, 2);
+      cartHeader.addProductToCart(product2, 3);
+
+      // Act
+      cartHeader.modifyQuantity(1L, 7);
+
+      // Assert
+      assertEquals(2, cartHeader.getCartDetails().size());
+
+      CartDetail detail1 = cartHeader.getCartDetails().stream()
+          .filter(d -> d.getProduct().getId().equals(1L))
+          .findFirst().orElse(null);
+      CartDetail detail2 = cartHeader.getCartDetails().stream()
+          .filter(d -> d.getProduct().getId().equals(2L))
+          .findFirst().orElse(null);
+
+      assertNotNull(detail1);
+      assertNotNull(detail2);
+      assertEquals(7, detail1.getQuantity());
+      assertEquals(3, detail2.getQuantity());
+    }
+
+    @Test
+    @DisplayName("Given cart without specific product, when modifying quantity, then no changes occur")
+    void givenCartWithoutSpecificProduct_whenModifyingQuantity_thenNoChangesOccur() {
+      // Arrange
+      cartHeader.addProductToCart(product1, 2);
+
+      // Act
+      cartHeader.modifyQuantity(999L, 5);
+
+      // Assert
+      assertEquals(1, cartHeader.getCartDetails().size());
+      CartDetail cartDetail = cartHeader.getCartDetails().get(0);
+      assertEquals(2, cartDetail.getQuantity()); // Original quantity unchanged
+    }
+
+    @Test
+    @DisplayName("Given CartHeader setters, when setting values, then getters return correct values")
+    void givenCartHeaderSetters_whenSettingValues_thenGettersReturnCorrectValues() {
+      // Arrange
+      CartHeader newCartHeader = new CartHeader();
+      User newUser = new User(2L, "newuser", "newpass");
+
+      // Act
+      newCartHeader.setId(2L);
+      newCartHeader.setUser(newUser);
+
+      // Assert
+      assertEquals(2L, newCartHeader.getId());
+      assertEquals(newUser, newCartHeader.getUser());
+      assertNotNull(newCartHeader.getCartDetails());
+      assertTrue(newCartHeader.getCartDetails().isEmpty());
     }
   }
 

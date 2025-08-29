@@ -91,4 +91,9 @@ public class ProductService {
       productRepository.save(product);
     }
   }
+
+  public Product getProductById(Long productId) {
+    return productRepository.findById(productId)
+        .orElseThrow(() -> new ProductNotFoundException("Products not found with ID: " + productId));
+  }
 }

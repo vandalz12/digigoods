@@ -163,7 +163,7 @@
           <consoleOutput>true</consoleOutput>
 
           <!-- We try to be strict here. Warning-level violation considered to be an error. -->
-          <violationSeverity>warning</violationSeverity>
+          <violationSeverity>error</violationSeverity>
         </configuration>
 
         <!-- Configure Checkstyle to run during Maven build phase -->

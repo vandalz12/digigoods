@@ -171,7 +171,7 @@ class DiscountServiceTest {
     // Act & Assert
     InvalidDiscountException exception = assertThrows(InvalidDiscountException.class,
         () -> discountService.validateAndGetDiscounts(discountCodes));
-    
+
     assertTrue(exception.getMessage().contains("NONEXISTENT"));
     assertTrue(exception.getMessage().contains("discount code not found"));
     verify(discountRepository).findAllByCodeIn(discountCodes);
@@ -187,7 +187,7 @@ class DiscountServiceTest {
     // Act & Assert
     InvalidDiscountException exception = assertThrows(InvalidDiscountException.class,
         () -> discountService.validateAndGetDiscounts(discountCodes));
-    
+
     assertTrue(exception.getMessage().contains("EXPIRED10"));
     assertTrue(exception.getMessage().contains("discount has expired"));
     verify(discountRepository).findAllByCodeIn(discountCodes);
@@ -203,7 +203,7 @@ class DiscountServiceTest {
     // Act & Assert
     InvalidDiscountException exception = assertThrows(InvalidDiscountException.class,
         () -> discountService.validateAndGetDiscounts(discountCodes));
-    
+
     assertTrue(exception.getMessage().contains("FUTURE15"));
     assertTrue(exception.getMessage().contains("discount is not yet valid"));
     verify(discountRepository).findAllByCodeIn(discountCodes);
@@ -219,7 +219,7 @@ class DiscountServiceTest {
     // Act & Assert
     InvalidDiscountException exception = assertThrows(InvalidDiscountException.class,
         () -> discountService.validateAndGetDiscounts(discountCodes));
-    
+
     assertTrue(exception.getMessage().contains("NOUSES25"));
     assertTrue(exception.getMessage().contains("discount has no remaining uses"));
     verify(discountRepository).findAllByCodeIn(discountCodes);
@@ -231,10 +231,10 @@ class DiscountServiceTest {
     // Arrange
     Discount discount1 = new Discount();
     discount1.setRemainingUses(5);
-    
+
     Discount discount2 = new Discount();
     discount2.setRemainingUses(3);
-    
+
     List<Discount> discounts = List.of(discount1, discount2);
 
     // Act
@@ -254,5 +254,22 @@ class DiscountServiceTest {
 
     // Assert
     verify(discountRepository, never()).save(any(Discount.class));
+  }
+
+  @Test
+  @DisplayName("Given multiple discount codes with one missing, when validateAndGetDiscounts, then throw InvalidDiscountException with missing code")
+  void givenMultipleDiscountCodesWithOneMissing_whenValidateAndGetDiscounts_thenThrowInvalidDiscountExceptionWithMissingCode() {
+    // Arrange
+    List<String> discountCodes = List.of("MISSING1", "VALID25");
+    when(discountRepository.findAllByCodeIn(discountCodes)).thenReturn(List.of(validDiscount));
+
+    // Act & Assert
+    InvalidDiscountException exception = assertThrows(InvalidDiscountException.class,
+        () -> discountService.validateAndGetDiscounts(discountCodes));
+
+    // The exception message format is: "Invalid discount code 'MISSING1': discount code not found"
+    assertTrue(exception.getMessage().contains("MISSING1"));
+    assertTrue(exception.getMessage().contains("discount code not found"));
+    verify(discountRepository).findAllByCodeIn(discountCodes);
   }
 }

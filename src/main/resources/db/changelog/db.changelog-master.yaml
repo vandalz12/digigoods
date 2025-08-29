@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/005-create-junction-tables.yaml
   - include:
       file: db/changelog/006-insert-sample-data.yaml
+  - include:
+      file: db/changelog/007-create-carts-table.yaml

@@ -99,4 +99,47 @@ class ProductServiceTest {
     assertThrows(InsufficientStockException.class,
         () -> productService.validateAndUpdateStock(productIds));
   }
+
+  @Test
+  @DisplayName("Given valid product ID, when getting product by ID, then return product")
+  void givenValidProductId_whenGettingProductById_thenReturnProduct() {
+    // Arrange
+    when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product1));
+
+    // Act
+    Product result = productService.getProductById(1L);
+
+    // Assert
+    assertEquals(product1, result);
+    verify(productRepository).findById(1L);
+  }
+
+  @Test
+  @DisplayName("Given invalid product ID, when getting product by ID, then throw ProductNotFoundException")
+  void givenInvalidProductId_whenGettingProductById_thenThrowProductNotFoundException() {
+    // Arrange
+    when(productRepository.findById(999L)).thenReturn(java.util.Optional.empty());
+
+    // Act & Assert
+    ProductNotFoundException exception = assertThrows(ProductNotFoundException.class,
+        () -> productService.getProductById(999L));
+
+    assertEquals("Products not found with ID: 999", exception.getMessage());
+    verify(productRepository).findById(999L);
+  }
+
+  @Test
+  @DisplayName("Given no parameters, when getting all products, then return all products")
+  void givenNoParameters_whenGettingAllProducts_thenReturnAllProducts() {
+    // Arrange
+    List<Product> expectedProducts = List.of(product1, product2);
+    when(productRepository.findAll()).thenReturn(expectedProducts);
+
+    // Act
+    List<Product> result = productService.getAllProducts();
+
+    // Assert
+    assertEquals(expectedProducts, result);
+    verify(productRepository).findAll();
+  }
 }
