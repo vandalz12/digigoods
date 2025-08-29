@@ -1,0 +1,102 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-insert-sample-data
+      author: digigoods
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: testuser
+              - column:
+                  name: password
+                  # password
+                  value: $2a$10$TarSKmGoxoU/pLOiv0wQe.XYDtcBDd2zQuCGeZYQ0JxrSmPQwPQ1e
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: name
+                  value: Digital Book
+              - column:
+                  name: price
+                  value: 29.99
+              - column:
+                  name: stock
+                  value: 100
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: name
+                  value: Software License
+              - column:
+                  name: price
+                  value: 99.99
+              - column:
+                  name: stock
+                  value: 50
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: name
+                  value: Online Course
+              - column:
+                  name: price
+                  value: 149.99
+              - column:
+                  name: stock
+                  value: 25
+        - insert:
+            tableName: discounts
+            columns:
+              - column:
+                  name: code
+                  value: SUMMER20
+              - column:
+                  name: percentage
+                  value: 20.00
+              - column:
+                  name: type
+                  value: GENERAL
+              - column:
+                  name: valid_from
+                  value: '2024-01-01'
+              - column:
+                  name: valid_until
+                  value: '2025-12-31'
+              - column:
+                  name: remaining_uses
+                  value: 100
+        - insert:
+            tableName: discounts
+            columns:
+              - column:
+                  name: code
+                  value: SPECIALSHIRT10
+              - column:
+                  name: percentage
+                  value: 10.00
+              - column:
+                  name: type
+                  value: PRODUCT_SPECIFIC
+              - column:
+                  name: valid_from
+                  value: '2024-01-01'
+              - column:
+                  name: valid_until
+                  value: '2025-12-31'
+              - column:
+                  name: remaining_uses
+                  value: 50
+        - insert:
+            tableName: discount_applicable_products
+            columns:
+              - column:
+                  name: discount_id
+                  value: 2
+              - column:
+                  name: product_id
+                  value: 1

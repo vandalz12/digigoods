@@ -1,0 +1,92 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-junction-tables
+      author: digigoods
+      changes:
+        - createTable:
+            tableName: discount_applicable_products
+            columns:
+              - column:
+                  name: discount_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: discount_applicable_products
+            columnNames: discount_id, product_id
+            constraintName: pk_discount_applicable_products
+        - addForeignKeyConstraint:
+            baseTableName: discount_applicable_products
+            baseColumnNames: discount_id
+            constraintName: fk_discount_applicable_products_discount_id
+            referencedTableName: discounts
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: discount_applicable_products
+            baseColumnNames: product_id
+            constraintName: fk_discount_applicable_products_product_id
+            referencedTableName: products
+            referencedColumnNames: id
+        - createTable:
+            tableName: order_products
+            columns:
+              - column:
+                  name: order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: order_products
+            columnNames: order_id, product_id
+            constraintName: pk_order_products
+        - addForeignKeyConstraint:
+            baseTableName: order_products
+            baseColumnNames: order_id
+            constraintName: fk_order_products_order_id
+            referencedTableName: orders
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: order_products
+            baseColumnNames: product_id
+            constraintName: fk_order_products_product_id
+            referencedTableName: products
+            referencedColumnNames: id
+        - createTable:
+            tableName: order_applied_discounts
+            columns:
+              - column:
+                  name: order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: discount_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: order_applied_discounts
+            columnNames: order_id, discount_id
+            constraintName: pk_order_applied_discounts
+        - addForeignKeyConstraint:
+            baseTableName: order_applied_discounts
+            baseColumnNames: order_id
+            constraintName: fk_order_applied_discounts_order_id
+            referencedTableName: orders
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: order_applied_discounts
+            baseColumnNames: discount_id
+            constraintName: fk_order_applied_discounts_discount_id
+            referencedTableName: discounts
+            referencedColumnNames: id

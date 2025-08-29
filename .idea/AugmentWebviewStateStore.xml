@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AugmentWebviewStateStore">
+    <option name="stateMap">
+      <map>
+        <entry key="CHAT_STATE" value="{&quot;currentConversationId&quot;:&quot;__NEW_AGENT__&quot;,&quot;conversations&quot;:{&quot;7f314968-df58-4dfb-917c-d734b4866941&quot;:{&quot;id&quot;:&quot;7f314968-df58-4dfb-917c-d734b4866941&quot;,&quot;createdAtIso&quot;:&quot;2025-08-29T02:17:48.460Z&quot;,&quot;lastInteractedAtIso&quot;:&quot;2025-08-29T02:17:48.460Z&quot;,&quot;chatHistory&quot;:[],&quot;feedbackStates&quot;:{},&quot;toolUseStates&quot;:{},&quot;draftExchange&quot;:{&quot;request_message&quot;:&quot;&quot;,&quot;rich_text_json_repr&quot;:{&quot;type&quot;:&quot;doc&quot;,&quot;content&quot;:[{&quot;type&quot;:&quot;paragraph&quot;}]},&quot;mentioned_items&quot;:[],&quot;status&quot;:&quot;draft&quot;},&quot;requestIds&quot;:[],&quot;isPinned&quot;:false,&quot;isShareable&quot;:false,&quot;extraData&quot;:{&quot;hasDirtyEdits&quot;:false},&quot;personaType&quot;:0,&quot;rootTaskUuid&quot;:&quot;5c1c8439-f639-48dc-93eb-bbbb3400e688&quot;},&quot;__NEW_AGENT__&quot;:{&quot;id&quot;:&quot;__NEW_AGENT__&quot;,&quot;createdAtIso&quot;:&quot;2025-08-29T02:17:52.790Z&quot;,&quot;lastInteractedAtIso&quot;:&quot;2025-08-29T02:17:52.790Z&quot;,&quot;chatHistory&quot;:[],&quot;feedbackStates&quot;:{},&quot;toolUseStates&quot;:{},&quot;draftExchange&quot;:{&quot;request_message&quot;:&quot;&quot;,&quot;rich_text_json_repr&quot;:{&quot;type&quot;:&quot;doc&quot;,&quot;content&quot;:[{&quot;type&quot;:&quot;paragraph&quot;}]},&quot;mentioned_items&quot;:[],&quot;status&quot;:&quot;draft&quot;},&quot;requestIds&quot;:[],&quot;isPinned&quot;:false,&quot;isShareable&quot;:false,&quot;extraData&quot;:{&quot;hasDirtyEdits&quot;:false,&quot;isAgentConversation&quot;:true,&quot;baselineTimestamp&quot;:0},&quot;personaType&quot;:0,&quot;rootTaskUuid&quot;:&quot;291834f4-c5e2-40fc-b235-7232fe62b805&quot;}},&quot;agentExecutionMode&quot;:&quot;manual&quot;,&quot;isPanelCollapsed&quot;:true,&quot;displayedAnnouncements&quot;:[]}" />
+      </map>
+    </option>
+  </component>
+</project>
